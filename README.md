@@ -1,5 +1,5 @@
 # CTT - Correlation-based Transformer Tracking [ICANN2022]
-Official implementation of the CTT (ICANN2022891267) , only training code.
+Official implementation of the CTT (ICANN2022) , only training code.
 
 
 ## Tracker
@@ -22,7 +22,6 @@ In recent studies on object tracking, Siamese tracking has achieved state-of-the
     <th>LaSOT<br>P (%)</th>
     <th>TrackingNet<br>AUC (%)</th>
     <th>TrackingNet<br>PNorm (%)</th>
-
     <th>OTB100<br>AUC (%)</th>
     <th>UAV123<br>AUC (%)</th>
 
@@ -41,7 +40,7 @@ In recent studies on object tracking, Siamese tracking has achieved state-of-the
 </table>
 
 ## Installation
-Installation for our project is same with [TransT](https://github.com/chenxin-dlut/TransT)
+Installation for our project is same with [TransT](https://github.com/chenxin-dlut/TransT).
 
 ## Citation
 
