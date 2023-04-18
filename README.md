@@ -1,185 +1,63 @@
-# TransT - Transformer Tracking [CVPR2021]
-Official implementation of the TransT (CVPR2021) , including training code and trained models.
+# CTT - Correlation-based Transformer Tracking [ICANN2022]
+Official implementation of the CTT (ICANN2022891267) , only training code.
 
-## News
-- :trophy: **TransT-M wins VOT2021 Real-Time Challenge with EAOMultistart 0.550! The code will be released soon** 
 
 ## Tracker
-#### TransT ####
+#### CTT ####
 
-[**[Paper]**](https://arxiv.org/abs/2103.15436)
-[**[Models(google)]**](https://drive.google.com/drive/folders/1GVQV1GoW-ttDJRRqaVAtLUtubtgLhWCE?usp=sharing)
-[**[Models(baidu:iiau)]**](https://pan.baidu.com/s/1geI1cIv_AdLUd7qYKWIqzw)
-[**[Raw Results]**](https://drive.google.com/file/d/1FSUh6NSzu8H2HzectIwCbDEKZo8ZKUro/view?usp=sharing)
+[**[Paper]**](https://link.springer.com/chapter/10.1007/978-3-031-15919-0_8)
 
-This work
-presents a attention-based feature fusion network,
-which effectively combines the template and search region
-features using attention. Specifically, the proposed
-method includes an ego-context augment module based on
-self-attention and a cross-feature augment module based on
-cross-attention. We present a Transformer tracking 
-(named TransT) method based on the Siamese-like feature extraction 
-backbone, the designed attention-based fusion mechanism, 
-and the classification and regression head.
+In recent studies on object tracking, Siamese tracking has achieved state-of-the-art performance due to its robustness and accuracy. Cross-correlation which is responsible for calculating similarity plays an important role in the development of Siamese tracking. However, the fact that general cross-correlation is a local operation leads to the lack of global contextual information. Although introducing transformer into tracking seems helpful to gain more semantic information, it will also bring more background interference, thus leads to the decline of the accuracy especially in long-term tracking. To address these problems, we propose a novel tracker, which adopts transformer architecture combined with cross-correlation, referred as correlation-based transformer tracking (CTT). When capturing global contextual information, the proposed CTT takes advantage of cross-correlation for more accurate feature fusion. This architecture is helpful to improve the tracking performance, especially long-term tracking. Extensive experimental results on large-scale benchmark datasets show that the proposed CTT achieves state-of-the-art performance, and particularly performs better than other trackers in long-term tracking.
 
-TransT is a very simple and efficient tracker, 
-without online update module, using the same model and hyparameter for all
-test sets.
-![TransT overview figure](pytracking/.figs/Framework.png)
-![ECA and CFA](pytracking/.figs/ECACFA.png)
 
 
 
 ## Results
-For VOT2020, we add a mask branch to generate mask, without any hyparameter-tuning. The code of the mask branch will be released soon.
 
 <table>
   <tr>
     <th>Model</th>
     <th>LaSOT<br>AUC (%)</th>
+    <th>LaSOT<br>PNorm (%)</th>
+    <th>LaSOT<br>P (%)</th>
     <th>TrackingNet<br>AUC (%)</th>
-    <th>GOT-10k<br>AO (%)</th>
-    <th>VOT2020<br>EAO (%)</th>
-    <th>TNL2K<br>AUC (%)</th>
+    <th>TrackingNet<br>PNorm (%)</th>
+
     <th>OTB100<br>AUC (%)</th>
-    <th>NFS<br>AUC (%)</th>
     <th>UAV123<br>AUC (%)</th>
-    <th>Speed<br></th>
-    <th>Params<br></th>
+
   </tr>
   <tr>
-    <td>TransT-N2</td>
-    <td>64.2</td>
-    <td>80.9</td>
-    <td>69.9</td>
-    <td>-</td>
-    <td>-</td>
-    <td>68.1</td>
+    <td>CTT</td>
     <td>65.7</td>
-    <td>67.0</td>
-    <td>70fps</td>
-    <td>16.7M</td>
-  </tr>
-  <tr>
-    <td>TransT-N4</td>
-    <td>64.9</td>
+    <td>75.0</td>
+    <td>69.8</td>
     <td>81.4</td>
-    <td>72.3</td>
-    <td>49.5</td>    
-    <td>51.0</td>
-    <td>69.4</td>
-    <td>65.7</td>
-    <td>69.1</td>
-    <td>50fps</td>
-    <td>23.0M</td>
+    <td>86.4</td>
+    <td>70.1</td>
+    <td>68.6</td>
   </tr>
+
 </table>
 
 ## Installation
-This document contains detailed instructions for installing the necessary dependencied for **TransT**. The instructions 
-have been tested on Ubuntu 18.04 system.
-
-#### Install dependencies
-* Create and activate a conda environment 
-    ```bash
-    conda create -n transt python=3.7
-    conda activate transt
-    ```  
-* Install PyTorch
-    ```bash
-    conda install -c pytorch pytorch=1.5 torchvision=0.6.1 cudatoolkit=10.2
-    ```  
-
-* Install other packages
-    ```bash
-    conda install matplotlib pandas tqdm
-    pip install opencv-python tb-nightly visdom scikit-image tikzplotlib gdown
-    conda install cython scipy
-    sudo apt-get install libturbojpeg
-    pip install pycocotools jpeg4py
-    pip install wget yacs
-    pip install shapely==1.6.4.post2
-    ```  
-* Setup the environment                                                                                                 
-Create the default environment setting files.
-
-    ```bash
-    # Change directory to <PATH_of_TransT>
-    cd TransT
-    
-    # Environment settings for pytracking. Saved at pytracking/evaluation/local.py
-    python -c "from pytracking.evaluation.environment import create_default_local_file; create_default_local_file()"
-    
-    # Environment settings for ltr. Saved at ltr/admin/local.py
-    python -c "from ltr.admin.environment import create_default_local_file; create_default_local_file()"
-    ```
-You can modify these files to set the paths to datasets, results paths etc.
-* Add the project path to environment variables  
-Open ~/.bashrc, and add the following line to the end. Note to change <path_of_TransT> to your real path.
-    ```
-    export PYTHONPATH=<path_of_TransT>:$PYTHONPATH
-    ```
-* Download the pre-trained networks   
-Download the network for [TransT](https://drive.google.com/drive/folders/1GVQV1GoW-ttDJRRqaVAtLUtubtgLhWCE?usp=sharing)
-and put it in the directory set by "network_path" in "pytracking/evaluation/local.py". By default, it is set to 
-pytracking/networks.
-
-## Quick Start
-#### Traning
-* Modify [local.py](ltr/admin/local.py) to set the paths to datasets, results paths etc.
-* Runing the following commands to train the TransT. You can customize some parameters by modifying [transt.py](ltr/train_settings/transt/transt.py)
-    ```bash
-    conda activate transt
-    cd TransT/ltr
-    python run_training.py transt transt
-    ```  
-
-#### Evaluation
-
-* We integrated [PySOT](https://github.com/STVIR/pysot) for evaluation. You can download json files in [PySOT](https://github.com/STVIR/pysot) or [here](https://drive.google.com/file/d/1PItNIOkui0iGCRglgsZPZF1-hkmj7vyv/view?usp=sharing).
-    
-    You need to specify the path of the model and dataset in the [test.py](pysot_toolkit/test.py).
-    ```python
-    net_path = '/path_to_model' #Absolute path of the model
-    dataset_root= '/path_to_datasets' #Absolute path of the datasets
-    ```  
-    Then run the following commands.
-    ```bash
-    conda activate TransT
-    cd TransT
-    python -u pysot_toolkit/test.py --dataset <name of dataset> --name 'transt' #test tracker #test tracker
-    python pysot_toolkit/eval.py --tracker_path results/ --dataset <name of dataset> --num 1 --tracker_prefix 'transt' #eval tracker
-    ```  
-    The testing results will in the current directory(results/dataset/transt/)
-    
-* You can also use [pytracking](pytracking) to test and evaluate tracker. 
-The results might be slightly different with [PySOT](https://github.com/STVIR/pysot) due to the slight difference in implementation (pytracking saves results as integers, pysot toolkit saves the results as decimals).
-
-#### Getting Help
-If you meet problem, please try searching our Github issues, if you can't find solutions, feel free to open a new issue.
-* `ImportError: cannot import name region`
-
-Solution: You can just delete `from pysot_toolkit.toolkit.utils.region import vot_overlap, vot_float2str` in [test.py](pysot_toolkit/test.py) if you don't test VOT2019/18/16.
-You can also build `region` by `python setup.py build_ext --inplace` in [pysot_toolkit](pysot_toolkit).
+Installation for our project is same with [TransT](https://github.com/chenxin-dlut/TransT)
 
 ## Citation
 
 ```
-@inproceedings{TransT,
-title={Transformer Tracking},
-author={Chen, Xin and Yan, Bin and Zhu, Jiawen and Wang, Dong and Yang, Xiaoyun and Lu, Huchuan},
-booktitle={CVPR},
-year={2021}
+@inproceedings{zhong2022correlation,
+  title={Correlation-Based Transformer Tracking},
+  author={Zhong, Minghan and Chen, Fanglin and Xu, Jun and Lu, Guangming},
+  booktitle={Artificial Neural Networks and Machine Learning--ICANN 2022: 31st International Conference on Artificial Neural Networks, Bristol, UK, September 6--9, 2022, Proceedings, Part I},
+  pages={85--96},
+  year={2022},
+  organization={Springer}
 }
 ```  
 
 ## Acknowledgement
-This is a modified version of the python framework [PyTracking](https://github.com/visionml/pytracking) based on **Pytorch**, 
-also borrowing from [PySOT](https://github.com/STVIR/pysot) and [detr](https://github.com/facebookresearch/detr). 
+This is a modified version of the python framework [PyTracking](https://github.com/visionml/pytracking) based on **Pytorch** and [TransT](https://github.com/chenxin-dlut/TransT). 
 We would like to thank their authors for providing great frameworks and toolkits.
 
-## Contact
-* Xin Chen (email:chenxin3131@mail.dlut.edu.cn)
 
-    Feel free to contact me if you have additional questions. 
