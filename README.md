@@ -11,6 +11,7 @@ In recent studies on object tracking, Siamese tracking has achieved state-of-the
 
 To address these problems, we propose a novel tracker, which adopts transformer architecture combined with cross-correlation, referred as correlation-based transformer tracking (CTT). When capturing global contextual information, the proposed CTT takes advantage of cross-correlation for more accurate feature fusion. This architecture is helpful to improve the tracking performance, especially long-term tracking. Extensive experimental results on large-scale benchmark datasets show that the proposed CTT achieves state-of-the-art performance, and particularly performs better than other trackers in long-term tracking.
 
+ ![image](https://github.com/clockmh/CTT/blob/main/f1g_00.png)
 
 
 
